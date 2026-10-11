@@ -11,3 +11,6 @@ def add_sma(data, refcolumn, newcolumn, spread): #sma stands for simple moving a
 
 def add_log_returns(data, refcolumn, newcolumn):
     data[newcolumn] = np.log(data[refcolumn] / data[refcolumn].shift(1))
+
+def add_returns(data, refcolumn, newcolumn):
+    data[newcolumn] = (data[refcolumn] / data[refcolumn].shift(1))

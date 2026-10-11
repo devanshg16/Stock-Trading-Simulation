@@ -1,5 +1,6 @@
 import plot
 import market_data
+import numpy as np
 
 spread1 = 20
 spread2 = 50
@@ -14,7 +15,17 @@ data = market_data.load_data(apple, startdate, enddate)
 market_data.add_sma(data, "Close", spread1str, spread1)
 market_data.add_sma(data, "Close", spread2str, spread2)
 market_data.add_log_returns(data, "Close", "LogReturns")
+market_data.add_returns(data, "Close", "Returns")
 
 print(data)
-# log       plot.plot_line_graph("Apple Stock", data, line1="Close", line2=spread1str, line3=spread2str, xlabel="Year", ylabel="Price (USD)", log=True)
-# non-log   plot.plot_line_graph("Apple Stock", data, line1="Close", line2=spread1str, line3=spread2str, xlabel="Year", ylabel="Price (USD)", log=False)
+# log       plot.plot_line_graph("Apple Stock", data, line1="Close", line2=spread1str, line3=spread2str, xlabel="Year", ylabel="Price (USD)", log=False)
+# non-log   plot.plot_line_graph("Apple Stock (log scale)", data, line1="Close", line2=spread1str, line3=spread2str, xlabel="Year", ylabel="Price (USD)", log=True)
+
+mean_log = data["LogReturns"].dropna().mean()
+print(f"Daily mean return: {(np.exp(mean_log) - 1) * 100:.4f}%")
+
+sum_log = data["LogReturns"].dropna().sum()
+print(f"Total return: {(np.exp(sum_log) - 1) * 100:.4f}%")
+
+plot.plot_histogram("AAPL Daily Returns", data, "Returns", xlabel="Daily return")
+plot.plot_histogram("AAPL Daily Returns (log scale)", data, "Returns", xlabel="Daily return", log=True)
