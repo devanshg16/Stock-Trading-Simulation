@@ -48,12 +48,15 @@ def plot_histogram(title, dataframe, column, bins=100, normal_curve=True, xlabel
 
     if log:
         pyplot.yscale("log")
-        lower_limit = counts.max() * 0.01 if density else 0.7
-        pyplot.ylim(lower_limit, counts.max() * 1.2)
+        smallest_bar = counts[counts > 0].min()   # height of a 1-observation bin
+        pyplot.ylim(smallest_bar * 0.85, counts.max() * 1.5)
 
     pyplot.grid(True, which='major', linestyle='-', linewidth=0.7, alpha=0.7)
     pyplot.grid(True, which='minor', linestyle=':', linewidth=0.4, alpha=0.4)
 
+    pyplot.gca().xaxis.set_major_locator(ticker.MaxNLocator(nbins=20))   # ~20 labelled ticks
+    pyplot.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator(5))
+    
     pyplot.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=11)
     pyplot.tight_layout()
     pyplot.show()
