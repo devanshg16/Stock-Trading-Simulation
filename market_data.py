@@ -4,8 +4,8 @@ import numpy as np
 def load_data(stockname, start, end):
     return yf.Ticker(stockname).history(start=start, end=end)
 
-def add_sma(data, refcolumn, newcolumn, spread): #sma stands for simple moving average
-    data[newcolumn] = data[refcolumn].rolling(window=spread).mean()
+def add_sma(data, refcolumn, newcolumn, window): #sma stands for simple moving average
+    data[newcolumn] = data[refcolumn].rolling(window=window).mean()
     # this is possible since data is a dataframe type
     # dataframe types are always passed by reference, so a new item is not created
 
