@@ -27,5 +27,5 @@ print(f"Daily mean return: {(np.exp(mean_log) - 1) * 100:.4f}%")
 sum_log = data["LogReturns"].dropna().sum()
 print(f"Total return: {(np.exp(sum_log) - 1) * 100:.4f}%")
 
-plot.plot_histogram("AAPL Daily Returns", data, "Returns", xlabel="Daily return")
-plot.plot_histogram("AAPL Daily Returns (log scale)", data, "Returns", xlabel="Daily return", log=True)
+plot.plot_histogram("AAPL Daily Log Returns", data, "LogReturns", xlabel="Daily return", density=True)
+plot.plot_histogram("AAPL Daily Log Returns (log scale)", data, "LogReturns", xlabel="Daily return", log=True, density=True)
