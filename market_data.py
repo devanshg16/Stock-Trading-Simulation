@@ -13,4 +13,36 @@ def add_log_returns(data, refcolumn, newcolumn):
     data[newcolumn] = np.log(data[refcolumn] / data[refcolumn].shift(1))
 
 def add_returns(data, refcolumn, newcolumn):
-    data[newcolumn] = (data[refcolumn] / data[refcolumn].shift(1))
+    data[newcolumn] = (data[refcolumn] / data[refcolumn].shift(1))-1
+
+class stock_data:
+    def __init__(self, ticker, startdate, enddate):
+        self.ticker = ticker
+        self.startdate = startdate
+        self.enddate = enddate  # non-inclusive, so the last date fetched is the day before
+        self.data = yf.Ticker(ticker).history(start=startdate, end=enddate)
+        self.sma_cols = {}  # window -> column name, e.g. {20: "SMA-20"}
+    
+    def __repr__(self):
+        return f"StockData({self.ticker!r}, {self.startdate!r}, {self.enddate!r})"
+
+    def add_sma(self, window, refcolumn="Close"):
+        name = f"SMA-{window}"
+        add_sma(self.data, refcolumn, name, window)
+        self.sma_cols[window] = name
+        return name
+
+    def add_multiple_smas(self, windows, refcolumn="Close"):
+        return [self.add_sma(w, refcolumn) for w in windows]
+
+    def get_sma(self, window):
+        return self.sma_cols[window]
+    
+    def add_log_returns(self, refcolumn="Close", name="LogReturns"):
+        add_log_returns(self.data, refcolumn, name)
+
+    def add_returns(self, refcolumn="Close", name="Returns"):
+        add_returns(self.data, refcolumn, name)
+
+    def total_return(self, column="LogReturns"):
+        return np.exp(self.data[column].dropna().sum()) - 1
