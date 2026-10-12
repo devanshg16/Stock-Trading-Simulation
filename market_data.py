@@ -15,12 +15,12 @@ def add_log_returns(data, refcolumn, newcolumn):
 def add_returns(data, refcolumn, newcolumn):
     data[newcolumn] = (data[refcolumn] / data[refcolumn].shift(1))-1
 
-class stock_data:
+class StockData:
     def __init__(self, ticker, startdate, enddate):
         self.ticker = ticker
         self.startdate = startdate
         self.enddate = enddate  # non-inclusive, so the last date fetched is the day before
-        self.data = yf.Ticker(ticker).history(start=startdate, end=enddate)
+        self.data = load_data(ticker, startdate, enddate)
         self.sma_cols = {}  # window -> column name, e.g. {20: "SMA-20"}
     
     def __repr__(self):
