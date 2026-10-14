@@ -37,9 +37,8 @@ def plot_histogram(title, dataframe, column, bins=100, normal_curve=True, xlabel
     counts, edges, _ = pyplot.hist(dataframe[column], bins=bins, density=density, label=column, color='#2980b9', alpha=0.6, edgecolor='white', linewidth=0.3)
 
     if normal_curve:
-        bin_width = edges[1] - edges[0]
         x = numpy.linspace(dataframe[column].min(), dataframe[column].max(), 500)
-        scale = 1 if density else len(dataframe[column]) * bin_width
+        scale = 1 if density else dataframe[column].count() * (edges[1] - edges[0])
         pyplot.plot(x, norm.pdf(x, dataframe[column].mean(), dataframe[column].std()) * scale, label='Normal distribution', color='#e67e22', linewidth=1.8)
 
     pyplot.title(title, fontsize=16, fontweight='bold', pad=15)
