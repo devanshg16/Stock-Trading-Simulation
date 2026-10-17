@@ -3,7 +3,7 @@ from market_data import StockData
     
 sma_windows = [2, 5, 10, 20, 50, 100, 150, 200]
 
-apple = StockData("AAPL", "2000-01-01", "2020-01-01")  # end is non-inclusive, so last date is 2019-12-31
+apple = StockData("AAPL", "2000-01-01", "2015-01-01")  # end is non-inclusive, so last date is 2014-12-31
 apple.add_multiple_smas(sma_windows)
 apple.add_log_returns()
 
@@ -32,7 +32,7 @@ print(f"Excess Kurtosis (excluding outlier September 29, 2000): {apple.data['Log
 # plot.plot_histogram(f"{apple.ticker} Daily Log Returns (log scale)", apple.data, "LogReturns", 
 #                     xlabel="Daily log return", log=True, density=True)
 
-snp500 = StockData("^GSPC", "2000-01-01", "2020-01-01")
+snp500 = StockData("^GSPC", "2000-01-01", "2015-01-01")
 snp500.add_multiple_smas(sma_windows)
 snp500.add_log_returns()
 
