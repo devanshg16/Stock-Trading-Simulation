@@ -23,9 +23,6 @@ class StockData:
         self.data = load_data(ticker, startdate, enddate)
         self.sma_cols = {}  # window -> column name, e.g. {20: "SMA-20"}
     
-    def __repr__(self):
-        return f"StockData({self.ticker!r}, {self.startdate!r}, {self.enddate!r})"
-
     def add_sma(self, window, refcolumn="Close"):
         name = f"SMA-{window}"
         add_sma(self.data, refcolumn, name, window)
@@ -46,3 +43,6 @@ class StockData:
 
     def total_return(self, column="LogReturns"):
         return np.exp(self.data[column].dropna().sum()) - 1
+
+    def strip_unnecessary_columns(self, columns_to_strip):
+        self.data.drop(columns=[col for col in columns_to_strip if col in self.data.columns], inplace=True)
