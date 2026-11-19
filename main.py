@@ -6,7 +6,7 @@ sma_windows = [2, 5, 10, 22, 50, 100, 150, 200]
 apple = StockData("AAPL", "2000-01-01", "2015-01-01")  # end is non-inclusive, so last date is 2014-12-31
 apple.add_multiple_smas(sma_windows)
 apple.add_log_returns()
-apple.strip_unnecessary_columns(["Open", "High", "Low"])  # these columns are not needed for the analysis
+apple.strip_unnecessary_columns(["Open", "High", "Low", "Volume", "Dividends", "Stock Splits"])  # these columns are not needed for the analysis
 
 print(apple.data)
 
@@ -36,7 +36,7 @@ print(f"Excess Kurtosis (excluding outlier September 29, 2000): {apple.data['Log
 snp500 = StockData("^GSPC", "2000-01-01", "2015-01-01")
 snp500.add_multiple_smas(sma_windows)
 snp500.add_log_returns()
-
+snp500.strip_unnecessary_columns(["Open", "High", "Low", "Volume", "Dividends", "Stock Splits"])
 # plot.plot_line_graph("S&P 500", snp500.data, line1="Close", line2=snp500.get_sma(22), line3=snp500.get_sma(50), 
 #                      xlabel="Year", ylabel="Price (USD)", log=False)
 # plot.plot_line_graph("S&P 500 (log scale)", snp500.data, line1="Close", line2=snp500.get_sma(22), line3=snp500.get_sma(50), 
